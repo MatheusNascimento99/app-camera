@@ -1,36 +1,44 @@
 import { useState, useEffect, useRef } from 'react';
 import {
-    StyleSheet,
     Text,
     TouchableOpacity,
     View,
     Modal,
     Image,
+    Button,
 } from 'react-native';
-import {
-    CameraView,
-    CameraType,
-    useCameraPermissions,
-    PermissionResponse,
-} from 'expo-camera';
+import { CameraView, CameraType, Camera, ImageType } from 'expo-camera';
 
 import styles from './styles';
+import * as MediaLibrary from 'expo-media-library';
+import { CameraCapturedPicture } from 'expo-camera/build/legacy/Camera.types';
 
 export default function CameraViewComponet() {
     const [facing, setFacing] = useState<CameraType>('back');
-    const [permission, requestPermission] = useCameraPermissions();
     const camRef = useRef<CameraView>(null);
     const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
     const [modalisOpen, setModalisOpen] = useState<boolean>(false);
+    const [hasPermission, setHasPermission] = useState<boolean>(false);
+    const options = {
+        quality: 0.8,
+        imageType: 'png',
+        onPictureSaved: (picture: CameraCapturedPicture) =>
+            console.log('Foto salva'),
+    };
+
+    async function requestPermissionAgain() {
+        //estudo de caso, botao para pedir permissão novamente caso negado a 1 vez
+        const { status } = await Camera.requestCameraPermissionsAsync();
+        setHasPermission(status === 'granted'); //verificação se são iguais retornando true or
+        console.log('Camera Permissão', status);
+    }
 
     useEffect(() => {
-        console.log(permission?.status);
-        if (permission?.status !== 'granted') {
-            requestPermission();
-        }
-    }, [permission]);
-
-    //TODO PERMISSION WORKS
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            setHasPermission(status === 'granted'); //verificação se são iguais retornando true or
+        })();
+    }, [hasPermission]);
 
     const toggleCamera = () => {
         setFacing((prevState) => (prevState === 'back' ? 'front' : 'back'));
@@ -43,6 +51,14 @@ export default function CameraViewComponet() {
             if (data) {
                 setCapturedPhoto(data.uri);
             }
+        }
+    }
+
+    async function salvePicture() {
+        if (capturedPhoto != null) {
+            MediaLibrary.saveToLibraryAsync(capturedPhoto).then(() =>
+                setCapturedPhoto(null),
+            );
         }
     }
 
@@ -66,10 +82,14 @@ export default function CameraViewComponet() {
                         style={styles.takePhoto}
                         onPress={takePicture}
                     >
-                        <Text style={styles.takePhotoText}>
-                            {' '}
-                            Take a picture
-                        </Text>
+                        <Text style={styles.text}>Take a picture</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.takePermission}
+                        onPress={requestPermissionAgain}
+                    >
+                        <Text style={styles.text} >Pedir permissão</Text>
                     </TouchableOpacity>
                 </View>
             </CameraView>
@@ -87,12 +107,21 @@ export default function CameraViewComponet() {
                             margin: 20,
                         }}
                     >
-                        <TouchableOpacity
-                            style={{ margin: 10 }}
-                            onPress={() => setModalisOpen(false)}
-                        >
-                            <Text>Close</Text>
-                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity
+                                style={{ margin: 10 }}
+                                onPress={() => setModalisOpen(false)}
+                            >
+                                <Text>Close</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{ margin: 10 }}
+                                onPress={salvePicture}
+                            >
+                                <Text>Salvar</Text>
+                            </TouchableOpacity>
+                        </View>
+
                         <Image
                             style={{
                                 width: '100%',

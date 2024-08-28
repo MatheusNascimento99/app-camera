@@ -1,5 +1,4 @@
-import { StyleSheet } from "react-native";
-
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -8,38 +7,45 @@ const styles = StyleSheet.create({
     },
     message: {
         textAlign: 'center',
-        paddingBottom: 10,
     },
     camera: {
         flex: 1,
     },
     buttonContainer: {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column-reverse',
         backgroundColor: 'transparent',
         margin: 64,
+        borderColor: 'green',
+        borderWidth: 2,
+        alignItems:"center"
     },
     button: {
-        flex: 1,
-        alignSelf: 'flex-end',
+        
         alignItems: 'center',
+        borderColor: 'blue',
+        borderWidth: 2,
     },
     text: {
         fontSize: 24,
         fontWeight: 'bold',
         color: 'white',
     },
-    takePhoto:{
-        position:"absolute",
-        bottom:20,
-        right:20,
+    takePhoto: {
+        
     },
-    takePhotoText:{
-        fontSize:20,
-        marginBottom:15,
-        color:"#fff"
+    takePhotoText: {
+        fontSize: 20,
+        marginBottom: 15,
+        color: '#fff',
+    },
+    takePermission: {
+        fontSize: 20,
+        marginBottom: 15,
+        color: '#fff',
+        borderColor: 'orange',
+        borderWidth: 2,
     },
 });
-
 
 export default styles;
