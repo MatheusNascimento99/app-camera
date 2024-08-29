@@ -1,13 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import {
-    Text,
-    TouchableOpacity,
-    View,
-    Modal,
-    Image,
-    Button,
-} from 'react-native';
+import { Text, TouchableOpacity, View, Modal, Image } from 'react-native';
 import { CameraView, CameraType, Camera, ImageType } from 'expo-camera';
+
+import { FontAwesome5 } from '@expo/vector-icons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import styles from './styles';
 import * as MediaLibrary from 'expo-media-library';
@@ -25,13 +21,6 @@ export default function CameraViewComponet() {
         onPictureSaved: (picture: CameraCapturedPicture) =>
             console.log('Foto salva'),
     };
-
-    async function requestPermissionAgain() {
-        //estudo de caso, botao para pedir permissão novamente caso negado a 1 vez
-        const { status } = await Camera.requestCameraPermissionsAsync();
-        setHasPermission(status === 'granted'); //verificação se são iguais retornando true or
-        console.log('Camera Permissão', status);
-    }
 
     useEffect(() => {
         (async () => {
@@ -56,10 +45,16 @@ export default function CameraViewComponet() {
 
     async function salvePicture() {
         if (capturedPhoto != null) {
-            MediaLibrary.saveToLibraryAsync(capturedPhoto).then(() =>
+            await saveToAlbum(capturedPhoto, 'Expo App');
+            /* MediaLibrary.saveToLibraryAsync(capturedPhoto).then(() =>
                 setCapturedPhoto(null),
-            );
+            ); */
         }
+    }
+
+    async function saveToAlbum(uri: string, album: string) {
+        const asset = await MediaLibrary.createAssetAsync(uri);
+        await MediaLibrary.createAlbumAsync(album, asset);
     }
 
     return (
@@ -75,21 +70,18 @@ export default function CameraViewComponet() {
                         style={styles.button}
                         onPress={toggleCamera}
                     >
-                        <Text style={styles.text}>Flip Camera</Text>
+                        <MaterialCommunityIcons
+                            name="camera-flip-outline"
+                            size={24}
+                            color="black"
+                        />
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.takePhoto}
                         onPress={takePicture}
                     >
-                        <Text style={styles.text}>Take a picture</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.takePermission}
-                        onPress={requestPermissionAgain}
-                    >
-                        <Text style={styles.text} >Pedir permissão</Text>
+                        <FontAwesome5 name="camera" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
             </CameraView>
@@ -112,7 +104,11 @@ export default function CameraViewComponet() {
                                 style={{ margin: 10 }}
                                 onPress={() => setModalisOpen(false)}
                             >
-                                <Text>Close</Text>
+                                <FontAwesome5
+                                    name="times"
+                                    size={24}
+                                    color="black"
+                                />
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={{ margin: 10 }}
