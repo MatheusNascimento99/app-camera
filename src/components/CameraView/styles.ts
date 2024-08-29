@@ -13,15 +13,15 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flex: 1,
-        flexDirection: 'column-reverse',
         backgroundColor: 'transparent',
-        margin: 64,
+        margin: 34,
         borderColor: 'green',
         borderWidth: 2,
-        alignItems:"center"
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent:"space-between",
     },
     button: {
-        
         alignItems: 'center',
         borderColor: 'blue',
         borderWidth: 2,
@@ -31,9 +31,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
     },
-    takePhoto: {
-        
-    },
+    takePhoto: { borderColor: 'orange', borderWidth: 2 },
     takePhotoText: {
         fontSize: 20,
         marginBottom: 15,
@@ -45,6 +43,17 @@ const styles = StyleSheet.create({
         color: '#fff',
         borderColor: 'orange',
         borderWidth: 2,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 20,
+    },
+    photoOnModal: {
+        width: '100%',
+        height: 450,
+        borderRadius: 20,
     },
 });
 

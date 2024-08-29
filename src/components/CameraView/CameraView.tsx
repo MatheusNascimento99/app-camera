@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View, Modal, Image } from 'react-native';
 import { CameraView, CameraType, Camera, ImageType } from 'expo-camera';
 
 import { FontAwesome5 } from '@expo/vector-icons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import styles from './styles';
 import * as MediaLibrary from 'expo-media-library';
@@ -70,9 +70,9 @@ export default function CameraViewComponet() {
                         style={styles.button}
                         onPress={toggleCamera}
                     >
-                        <MaterialCommunityIcons
-                            name="camera-flip-outline"
-                            size={24}
+                        <MaterialIcons
+                            name="flip-camera-ios"
+                            size={40}
                             color="black"
                         />
                     </TouchableOpacity>
@@ -81,7 +81,7 @@ export default function CameraViewComponet() {
                         style={styles.takePhoto}
                         onPress={takePicture}
                     >
-                        <FontAwesome5 name="camera" size={24} color="black" />
+                        <FontAwesome5 name="camera" size={40} color="white" />
                     </TouchableOpacity>
                 </View>
             </CameraView>
@@ -91,14 +91,7 @@ export default function CameraViewComponet() {
                     transparent={false}
                     visible={modalisOpen}
                 >
-                    <View
-                        style={{
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            margin: 20,
-                        }}
-                    >
+                    <View style={styles.modalContainer}>
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity
                                 style={{ margin: 10 }}
@@ -106,7 +99,7 @@ export default function CameraViewComponet() {
                             >
                                 <FontAwesome5
                                     name="times"
-                                    size={24}
+                                    size={28}
                                     color="black"
                                 />
                             </TouchableOpacity>
@@ -117,13 +110,8 @@ export default function CameraViewComponet() {
                                 <Text>Salvar</Text>
                             </TouchableOpacity>
                         </View>
-
                         <Image
-                            style={{
-                                width: '100%',
-                                height: 300,
-                                borderRadius: 20,
-                            }}
+                            style={styles.photoOnModal}
                             source={{ uri: capturedPhoto }}
                         />
                     </View>
