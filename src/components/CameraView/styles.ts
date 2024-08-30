@@ -14,12 +14,12 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flex: 1,
         backgroundColor: 'transparent',
-        margin: 34,
+        margin: 20,
         borderColor: 'green',
         borderWidth: 2,
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'flex-end',
-        justifyContent:"space-between",
+        justifyContent:"flex-end",
     },
     button: {
         alignItems: 'center',
@@ -49,11 +49,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         margin: 20,
+        
     },
     photoOnModal: {
         width: '100%',
         height: 450,
         borderRadius: 20,
+    },
+    txtSalveModal:{
+        fontSize:22,
+        fontWeight:"600"
     },
 });
 

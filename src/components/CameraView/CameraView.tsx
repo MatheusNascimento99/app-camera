@@ -71,9 +71,10 @@ export default function CameraViewComponet() {
                         onPress={toggleCamera}
                     >
                         <MaterialIcons
+                        backgroundColor="#F4F3F8"
                             name="flip-camera-ios"
-                            size={40}
-                            color="black"
+                            size={50}
+                            color="#000"
                         />
                     </TouchableOpacity>
 
@@ -81,7 +82,7 @@ export default function CameraViewComponet() {
                         style={styles.takePhoto}
                         onPress={takePicture}
                     >
-                        <FontAwesome5 name="camera" size={40} color="white" />
+                        <FontAwesome5 backgroundColor="#F4F3F8" name="camera" size={50} color="#000" />
                     </TouchableOpacity>
                 </View>
             </CameraView>
@@ -107,7 +108,7 @@ export default function CameraViewComponet() {
                                 style={{ margin: 10 }}
                                 onPress={salvePicture}
                             >
-                                <Text>Salvar</Text>
+                                <Text style={styles.txtSalveModal}>Salvar</Text>
                             </TouchableOpacity>
                         </View>
                         <Image
