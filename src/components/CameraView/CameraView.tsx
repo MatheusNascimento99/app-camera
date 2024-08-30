@@ -9,38 +9,26 @@ import styles from './styles';
 import * as MediaLibrary from 'expo-media-library';
 import { CameraCapturedPicture } from 'expo-camera/build/legacy/Camera.types';
 
+//importanção actionCamera
+import { toggleCameraState } from './actionsCamera';
+import { takePictureState } from './actionsCamera';
+
 export default function CameraViewComponet() {
-    const [facing, setFacing] = useState<CameraType>('back');
-    const camRef = useRef<CameraView>(null);
-    const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
-    const [modalisOpen, setModalisOpen] = useState<boolean>(false);
-    const options = {
-        quality: 0.8,
-        imageType: 'png',
-        onPictureSaved: (picture: CameraCapturedPicture) =>
-            console.log('Foto salva'),
-    };
-
-    
-
-    const toggleCamera = () => {
-        setFacing((prevState) => (prevState === 'back' ? 'front' : 'back'));
-    };
-
-    async function takePicture() {
-        if (camRef && camRef.current) {
-            const data = await camRef.current.takePictureAsync();
-            setModalisOpen(true);
-            if (data) {
-                setCapturedPhoto(data.uri);
-            }
-        }
-    }
+    const { facing, setFacing, toggleCamera } = toggleCameraState();
+    const {
+        camRef,
+        modalisOpen,
+        setModalisOpen,
+        capturedPhoto,
+        setCapturedPhoto,
+        takePicture,
+    } = takePictureState();
 
     async function salvePicture() {
         if (capturedPhoto != null) {
             await saveToAlbum(capturedPhoto, 'Expo App');
-            /* MediaLibrary.saveToLibraryAsync(capturedPhoto).then(() =>
+            setModalisOpen(false);
+            /* MediaLibrary.saveToLibraryAsync(capturedPhoto).then(() =>         salvar em álbum aleatório
                 setCapturedPhoto(null),
             ); */
         }
@@ -65,7 +53,7 @@ export default function CameraViewComponet() {
                         onPress={toggleCamera}
                     >
                         <MaterialIcons
-                        backgroundColor="#F4F3F8"
+                            backgroundColor="#F4F3F8"
                             name="flip-camera-ios"
                             size={50}
                             color="#000"
@@ -76,7 +64,12 @@ export default function CameraViewComponet() {
                         style={styles.takePhoto}
                         onPress={takePicture}
                     >
-                        <FontAwesome5 backgroundColor="#F4F3F8" name="camera" size={50} color="#000" />
+                        <FontAwesome5
+                            backgroundColor="#F4F3F8"
+                            name="camera"
+                            size={50}
+                            color="#000"
+                        />
                     </TouchableOpacity>
                 </View>
             </CameraView>
