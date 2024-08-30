@@ -60,6 +60,17 @@ const styles = StyleSheet.create({
         fontSize:22,
         fontWeight:"600"
     },
+    notPermission:{
+        flex: 1,
+        backgroundColor: 'white',
+        margin: 20,
+        marginTop:60
+    },
+    notPermissionText:{
+        color:"red",
+        textAlign:"center",
+        fontWeight:"bold"
+    }
 });
 
 export default styles;

@@ -14,7 +14,6 @@ export default function CameraViewComponet() {
     const camRef = useRef<CameraView>(null);
     const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
     const [modalisOpen, setModalisOpen] = useState<boolean>(false);
-    const [hasPermission, setHasPermission] = useState<boolean>(false);
     const options = {
         quality: 0.8,
         imageType: 'png',
@@ -22,12 +21,7 @@ export default function CameraViewComponet() {
             console.log('Foto salva'),
     };
 
-    useEffect(() => {
-        (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
-            setHasPermission(status === 'granted'); //verificação se são iguais retornando true or
-        })();
-    }, [hasPermission]);
+    
 
     const toggleCamera = () => {
         setFacing((prevState) => (prevState === 'back' ? 'front' : 'back'));
